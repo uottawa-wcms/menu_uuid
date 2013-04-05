@@ -18,6 +18,6 @@ function menu_uuid_menu_link_insert() {
  * Loads a menu item by UUID.
  */
 function menu_link_uuid_load($uuid) {
-  $mlid = db_select('menu_links', 'ml')->fields('ml', array('mlid'))->condition('uuid', $uuid)->execute();
+  $mlid = db_select('menu_links', 'ml')->fields('ml', array('mlid'))->condition('uuid', $uuid)->execute()->fetchField();
   return menu_link_load($mlid);
 }

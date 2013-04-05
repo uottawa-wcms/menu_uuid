@@ -13,3 +13,11 @@ module_load_include('inc', 'menu_uuid', 'menu_uuid');
 function menu_uuid_menu_link_insert() {
   menu_uuid_sync();
 }
+
+/**
+ * Loads a menu item by UUID.
+ */
+function menu_link_uuid_load($uuid) {
+  $mlid = db_select('menu_links', 'ml')->fields('ml', array('mlid'))->condition('uuid', $uuid)->execute();
+  return menu_link_load($mlid);
+}

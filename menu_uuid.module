@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * @file
+ * menu_uuid module.
+ */
+
+module_load_include('inc', 'menu_uuid', 'menu_uuid');
+
+/**
+ * Implements hook_menu_link_insert().
+ */
+function menu_uuid_menu_link_insert() {
+  menu_uuid_sync();
+}

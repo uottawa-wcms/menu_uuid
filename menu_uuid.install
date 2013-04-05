@@ -1,0 +1,27 @@
+<?php
+/**
+ * Include some helper functions for the Entity API.
+ */
+module_load_include('inc', 'uuid', 'uuid.entity');
+module_load_include('inc', 'menu_uuid', 'menu_uuid');
+
+/**
+ * Implements hook_install().
+ */
+function menu_uuid_install() {
+  $field = uuid_schema_field_definition();
+  if (!db_field_exists('menu_links', 'uuid')) {
+    db_add_field('menu_links', 'uuid',  $field);
+  }
+  menu_uuid_sync();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function menu_uuid_uninstall() {
+  if (db_field_exists('menu_links', 'uuid')) {
+    db_drop_field('menu_links', 'uuid');
+  }
+}
+

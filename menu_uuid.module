@@ -5,19 +5,29 @@
  * menu_uuid module.
  */
 
-module_load_include('inc', 'menu_uuid', 'menu_uuid');
-
 /**
  * Implements hook_menu_link_insert().
  */
-function menu_uuid_menu_link_insert() {
-  menu_uuid_sync();
+function menu_uuid_menu_link_insert($link) {
+  module_load_include('inc', 'menu_uuid');
+  if (empty($link['uuid'])) {
+    module_load_include('inc', 'uuid');
+    $link['uuid'] = uuid_generate();
+  }
+  db_update('menu_links')
+      ->condition('mlid', $link)
+      ->fields(array('uuid' => $link['uuid']))
+      ->execute();
 }
 
 /**
  * Loads a menu item by UUID.
  */
 function menu_link_uuid_load($uuid) {
-  $mlid = db_select('menu_links', 'ml')->fields('ml', array('mlid'))->condition('uuid', $uuid)->execute()->fetchField();
+  $mlid = db_select('menu_links', 'ml')
+      ->fields('ml', array('mlid'))
+      ->condition('uuid', $uuid)
+      ->execute()
+      ->fetchField();
   return menu_link_load($mlid);
 }

@@ -15,7 +15,7 @@ function menu_uuid_menu_link_insert($link) {
     $link['uuid'] = uuid_generate();
   }
   db_update('menu_links')
-      ->condition('mlid', $link)
+      ->condition('mlid', $link['mlid'])
       ->fields(array('uuid' => $link['uuid']))
       ->execute();
 }
